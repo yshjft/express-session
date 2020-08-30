@@ -27,5 +27,8 @@
     "helmet": "^3.12.1",
     "sanitize-html": "^1.18.2",
     "session-file-store": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
