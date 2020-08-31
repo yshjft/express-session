@@ -1,4 +1,5 @@
 var express = require('express');
+var morgan = require('morgan');
 var app = express();
 var fs = require('fs');
 var bodyParser = require('body-parser');
@@ -8,7 +9,7 @@ app.use(helmet());
 var session = require('express-session')
 var FileStore = require('session-file-store')(session)
 
-
+app.use(morgan('dev'));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
