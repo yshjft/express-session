@@ -5,6 +5,12 @@ var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var template = require('../lib/template.js');
 
+var authData={
+  email : 'one@naver.com',
+  password : '111111',
+  nickname : 'hys',
+}
+
 router.get('/login', (request, response)=>{
   var title ='WEB - login';
   var list = template.list(request.list);
@@ -18,6 +24,22 @@ router.get('/login', (request, response)=>{
     </form>
   `, '');
   response.send(html);
+});
+
+router.post('/login_process', (request, response)=>{
+  var post = request.body;
+  var email=post.email;
+  var pwd=post.pwd;
+  
+  if(email === authData.email && pwd=== authData.password){
+    request.session.is_logined = true;
+    request.session.nickname = authData.nickname;
+    response.redirect('/');
+  }else{
+    response.send('who?');
+  }
+
+  
 });
 
 

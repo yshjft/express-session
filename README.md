@@ -7,4 +7,5 @@
 
 3. 진행 상황
 <br/>
-~ 8/31 : express-session 6번째 강의까지 들음
+~ 8/31 : express-session 6번째 강의까지 들음        
+~ 9/1  : express-session 7, 8번째 강의
