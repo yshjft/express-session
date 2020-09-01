@@ -5,7 +5,12 @@
 
 2. 프로젝트가 아니라 단순 공부 입니다.
 
+<<<<<<< HEAD
 3. 진행 상황
 <br/>
 ~ 8/31 : express-session 6번째 강의까지 들음        
 ~ 9/1  : express-session 7, 8번째 강의
+=======
+3. 진행 상황    
+~ 8/31 : express-session 6번째 강의까지 들음      
+>>>>>>> e4a7f026b1dc537506f1ec2fe84994363cf93d6a
