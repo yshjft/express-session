@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var template = require('../lib/template.js');
+const { request, response } = require('express');
 
 var authData={
   email : 'one@naver.com',
@@ -37,9 +38,14 @@ router.post('/login_process', (request, response)=>{
     response.redirect('/');
   }else{
     response.send('who?');
-  }
+  }  
+});
 
-  
+
+router.get('/logout', function(request, response){
+  request.session.destroy(function(err){
+    response.redirect('/');
+  });
 });
 
 

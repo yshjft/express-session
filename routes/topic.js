@@ -7,7 +7,7 @@ var template = require('../lib/template.js');
 var auth = require('../lib/auth');
 
 router.get('/create', function (request, response) {
-  if (!auth.isOwner(request, response)) {
+  if(!auth.isOwner(request, response)){
     response.redirect('/');
     return false;
   }
@@ -28,7 +28,7 @@ router.get('/create', function (request, response) {
 });
 
 router.post('/create_process', function (request, response) {
-  if (!auth.isOwner(request, response)) {
+  if(!auth.isOwner(request, response)){
     response.redirect('/');
     return false;
   }
