@@ -35,7 +35,14 @@ router.post('/login_process', (request, response)=>{
   if(email === authData.email && pwd=== authData.password){
     request.session.is_logined = true;
     request.session.nickname = authData.nickname;
+    /*
+      session 미들웨어는 기록한 데이터(request.session.nickname)를 session store에 기록하는 작업을 한다.
+      메모리에 저장된 sesstion데이터를 저장소에 반영하는 작업을 한다.(시간이 굉장히 많이 걸릴 수 있다.)
+    */
+   request.session.save(function(){
+     //session store에 반영작업 끝난 후에 redirection할 수 있다.
     response.redirect('/');
+   });
   }else{
     response.send('who?');
   }  
@@ -49,104 +56,4 @@ router.get('/logout', function(request, response){
 });
 
 
-/*
-
-router.post('/create_process', function (request, response) {
-  if (!auth.isOwner(request, response)) {
-    response.redirect('/');
-    return false;
-  }
-  var post = request.body;
-  var title = post.title;
-  var description = post.description;
-  fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
-    response.redirect(`/topic/${title}`);
-  });
-});
-
-router.get('/update/:pageId', function (request, response) {
-  if (!auth.isOwner(request, response)) {
-    response.redirect('/');
-    return false;
-  }
-  var filteredId = path.parse(request.params.pageId).base;
-  fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
-    var title = request.params.pageId;
-    var list = template.list(request.list);
-    var html = template.HTML(title, list,
-      `
-        <form action="/topic/update_process" method="post">
-          <input type="hidden" name="id" value="${title}">
-          <p><input type="text" name="title" placeholder="title" value="${title}"></p>
-          <p>
-            <textarea name="description" placeholder="description">${description}</textarea>
-          </p>
-          <p>
-            <input type="submit">
-          </p>
-        </form>
-        `,
-      `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`,
-      auth.statusUI(request, response)
-    );
-    response.send(html);
-  });
-});
-
-router.post('/update_process', function (request, response) {
-  if (!auth.isOwner(request, response)) {
-    response.redirect('/');
-    return false;
-  }
-  var post = request.body;
-  var id = post.id;
-  var title = post.title;
-  var description = post.description;
-  fs.rename(`data/${id}`, `data/${title}`, function (error) {
-    fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
-      response.redirect(`/topic/${title}`);
-    })
-  });
-});
-
-router.post('/delete_process', function (request, response) {
-  if (!auth.isOwner(request, response)) {
-    response.redirect('/');
-    return false;
-  }
-  var post = request.body;
-  var id = post.id;
-  var filteredId = path.parse(id).base;
-  fs.unlink(`data/${filteredId}`, function (error) {
-    response.redirect('/');
-  });
-});
-
-router.get('/:pageId', function (request, response, next) {
-  var filteredId = path.parse(request.params.pageId).base;
-  fs.readFile(`data/${filteredId}`, 'utf8', function (err, description) {
-    if (err) {
-      next(err);
-    } else {
-      var title = request.params.pageId;
-      var sanitizedTitle = sanitizeHtml(title);
-      var sanitizedDescription = sanitizeHtml(description, {
-        allowedTags: ['h1']
-      });
-      var list = template.list(request.list);
-      var html = template.HTML(sanitizedTitle, list,
-        `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-        ` <a href="/topic/create">create</a>
-            <a href="/topic/update/${sanitizedTitle}">update</a>
-            <form action="/topic/delete_process" method="post">
-              <input type="hidden" name="id" value="${sanitizedTitle}">
-              <input type="submit" value="delete">
-            </form>`,
-        auth.statusUI(request, response)
-      );
-      response.send(html);
-    }
-  });
-});
-*/
 module.exports = router;
